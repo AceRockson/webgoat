@@ -4,6 +4,7 @@ jobs:
     steps:
       - checkout
       - run: echo "This is a build step"
+      - run: echo "kappa"
    
   odc-backend:
     machine: true
