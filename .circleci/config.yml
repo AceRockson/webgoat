@@ -4,7 +4,17 @@ jobs:
     steps:
       - checkout
       - run: echo "This is a build step"
+   
+  odc-backend:
+    machine: true
+    steps:
+      - checkout
 
+      - run: chmod +x ./run-depcheck.sh && ./run-depcheck.sh
+
+      - store_artifacts:
+          path: reports/dependency-check-report.csv
+          destination: depcheck-artifact
   test:
     machine: true
     steps:
@@ -16,6 +26,9 @@ workflows:
   webgoat:
     jobs:
       - build
+      - odc-backend:
+        requires: 
+          - build
       - test:
           requires:
-            - build
+            - odc-backend
